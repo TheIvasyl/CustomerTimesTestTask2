@@ -15,10 +15,7 @@ import com.iyakoviv.customertimestest.presentation.presenters.impl.MainPresenter
 import com.iyakoviv.customertimestest.presentation.ui.adapter.AccountRecyclerViewAdapter;
 import com.iyakoviv.customertimestest.threading.MainThreadImpl;
 
-import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.List;
-import java.util.Map;
 
 public class MainActivity extends AppCompatActivity implements MainPresenter.View {
 
@@ -50,7 +47,6 @@ public class MainActivity extends AppCompatActivity implements MainPresenter.Vie
                 new RepositoryImpl(this));
 
         Log.d("ACTIVITY", "PRESENTER CREATED");
-
 
         mPresenter.setView(this);
         mPresenter.loadPageFromDb(pageNumber);
@@ -116,36 +112,5 @@ public class MainActivity extends AppCompatActivity implements MainPresenter.Vie
             }
         });
     }
-
-    /**
-     * subscribing for data
-     */
-  // public void subscribeForData() {
-  //     Disposable disposable = paginator
-  //             .onBackpressureDrop()
-  //             .concatMap(new Function<Integer, Publisher<List<AccountModel>>>() {
-  //                 @Override
-  //                 public Publisher<List<AccountModel>> apply(@NonNull Integer page) {
-  //                     loading = true;
-  //                     return dataFromNetwork(page);
-  //                 }
-  //             })
-  //             .observeOn(AndroidSchedulers.mainThread())
-  //             .subscribe(new Consumer<List<AccountModel>>() {
-  //                 @Override
-  //                 public void accept(@NonNull List<AccountModel> items) {
-  //                     recyclerViewAdapter.addNewItems(items);
-  //                     Log.d("TAG", "items added");
-  //                     recyclerViewAdapter.notifyDataSetChanged();
-  //                     loading = false;
-  //                 }
-  //             });
-
-  //     compositeDisposable.add(disposable);
-
-  //     paginator.onNext(pageNumber);
-
-  // }
-
 
 }

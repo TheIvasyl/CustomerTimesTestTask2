@@ -31,7 +31,7 @@ public class SplashScreenActivity extends AppCompatActivity implements SplashPre
 
   @Override
   public void goToMainActivity(){
-    Log.d("ACTIVITY", "GOING TO MAINT ACTIVITY");
+    Log.d("ACTIVITY", "GOING TO MAIN ACTIVITY");
     Intent intent = new Intent(this, MainActivity.class);
     startActivity(intent);
   }

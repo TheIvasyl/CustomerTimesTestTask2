@@ -53,7 +53,7 @@ public class AccountsDatabaseHelper extends SQLiteOpenHelper {
       database.execSQL(CREATE_ACCOUNT_TABLE);
     }
     catch (SQLiteException e){
-      Log.d("DATABASE_HELPER", "no need to create a table, it already exists");
+      Log.d("DB", "no need to create a table, it already exists");
     }
 
   }
@@ -109,11 +109,8 @@ public class AccountsDatabaseHelper extends SQLiteOpenHelper {
 
     int offset = limit * (pageNumber-1);
 
-    Log.d("DB", "OFFSET IS " + offset);
-
     String sql = "SELECT * FROM Account LIMIT " + offset + ", " + limit;
 
-    Log.d("DB", "INB4 QUERRY");
     Cursor mCursor = database.rawQuery(sql, null);
 
     List<AccountModel> page = new ArrayList<>();
@@ -121,19 +118,11 @@ public class AccountsDatabaseHelper extends SQLiteOpenHelper {
       int i = 0;
       while(!mCursor.isAfterLast()){
         page.add(cursorToModel(mCursor));
-        Log.d("DB", "ADDED ONE ELEMENT " + page.get(i).getValue().get("Id"));
         mCursor.moveToNext();
         i++;
       }
     }
     mCursor.close();
-    //Log.d("DB", "INB4 CURSOR ITERATION");
-    //for (int i = 0; i < limit; i++){
-    //  page.add(cursorToModel(mCursor));
-    //  Log.d("DB", "ADDED ONE ELEMENT " + page.get(i).getValue().get("Id"));
-    //  mCursor.moveToNext();
-    //}
-    //mCursor.close();
     Log.d("DB", "PAGE LOADED");
     return page;
   }
@@ -143,7 +132,6 @@ public class AccountsDatabaseHelper extends SQLiteOpenHelper {
 
     String[] columnNames = cursor.getColumnNames();
     int columnsCount = cursor.getColumnCount();
-    Log.d("DB", "GOT FIELDS " + columnNames.length);
     for (int i = 0; i<columnsCount; i++){
       String key = columnNames[i];
       String value = cursor.getString(cursor.getColumnIndex(key));

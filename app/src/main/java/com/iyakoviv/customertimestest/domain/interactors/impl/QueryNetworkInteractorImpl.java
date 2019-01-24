@@ -34,7 +34,6 @@ public class QueryNetworkInteractorImpl extends AbstractInteractor implements Qu
        final JsonElement query = (JsonElement) object;
        final JsonArray recordsJson = query.getAsJsonObject().get("records").getAsJsonArray();
        mRepository.insertAll(recordsJson);
-       Log.d("INTERACTOR", "RECORDS COUNT " + recordsJson.size());
        mMainThread.post(new Runnable() {
          @Override
          public void run() {

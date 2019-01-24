@@ -31,7 +31,6 @@ public class AccountRecyclerViewAdapter extends RecyclerView.Adapter<AccountRecy
   public ViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
     View view = LayoutInflater.from(parent.getContext())
             .inflate(R.layout.list_item, parent, false);
-    Log.d("ADAPTER", "ON CREATE VIEW HOLDER");
     return new ViewHolder(view);
   }
 
@@ -41,9 +40,7 @@ public class AccountRecyclerViewAdapter extends RecyclerView.Adapter<AccountRecy
 
     String idText = viewHolder.item.getValue().get("Id");
 
-    Log.d("ADAPTER", "BIND " + idText);
     if (viewHolder.accountText == null){
-      Log.d("ADAPTER", "TEXT VIEW IS NULL");
       return;
     }
     viewHolder.accountText.setText(idText);
@@ -61,7 +58,7 @@ public class AccountRecyclerViewAdapter extends RecyclerView.Adapter<AccountRecy
       return;
     }
     listElements.addAll(page);
-    Log.d("ADAPTER", "ADDED ANOTHER PAGE" + page.get(0).getValue().get("Id"));
+    Log.d("ADAPTER", "ADDED ANOTHER PAGE");
   }
 
   public boolean isAllItemsLoaded() {

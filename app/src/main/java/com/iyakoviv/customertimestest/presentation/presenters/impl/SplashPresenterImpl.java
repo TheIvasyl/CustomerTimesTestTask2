@@ -55,8 +55,8 @@ public class SplashPresenterImpl extends AbstractPresenter
       interactor.execute();
     }
     else {
-      mView.goToMainActivity();
       Log.d("PRESENTER", "table is filled");
+      mView.goToMainActivity();
     }
   }
 
