@@ -31,9 +31,9 @@ public class RepositoryImpl implements Repository {
   }
 
   @Override
-  public List<AccountModel> getPage(int offset, int limit) {
+  public List<AccountModel> getPage(int pageNumber, int limit) {
     AccountsDatabaseHelper databaseHelper = AccountsDatabaseHelper.getInstance(mContext);
-    List<AccountModel> page = databaseHelper.getPage(offset, limit);
+    List<AccountModel> page = databaseHelper.getPage(pageNumber, limit);
     Log.d("REPOSITORY", "PAGE LOADED");
     return page;
   }
@@ -41,14 +41,12 @@ public class RepositoryImpl implements Repository {
   @Override
   public boolean isTableExists() {
     AccountsDatabaseHelper databaseHelper = AccountsDatabaseHelper.getInstance(mContext);
-
     return databaseHelper.isTableExists();
   }
 
   @Override
   public boolean isTableEmpty() {
     AccountsDatabaseHelper databaseHelper = AccountsDatabaseHelper.getInstance(mContext);
-
     return databaseHelper.isTableEmpty();
   }
 

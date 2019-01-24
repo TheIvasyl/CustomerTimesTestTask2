@@ -6,12 +6,16 @@ import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.TextView;
 
 import com.iyakoviv.customertimestest.R;
 import com.iyakoviv.customertimestest.domain.model.AccountModel;
 
 import java.util.ArrayList;
 import java.util.List;
+
+import butterknife.BindView;
+import butterknife.ButterKnife;
 
 public class AccountRecyclerViewAdapter extends RecyclerView.Adapter<AccountRecyclerViewAdapter.ViewHolder> {
 
@@ -33,6 +37,9 @@ public class AccountRecyclerViewAdapter extends RecyclerView.Adapter<AccountRecy
   public void onBindViewHolder(@NonNull ViewHolder viewHolder, int i) {
     viewHolder.item = listElements.get(i);
 
+    String idText = viewHolder.item.getValue().get("Id");
+
+    viewHolder.accountText.setText(idText);
   }
 
   @Override
@@ -55,6 +62,10 @@ public class AccountRecyclerViewAdapter extends RecyclerView.Adapter<AccountRecy
 
   public class ViewHolder extends RecyclerView.ViewHolder {
 
+
+    @BindView(R.id.accountText)
+    TextView accountText;
+
     AccountModel item;
     View view;
     Context context;
@@ -63,6 +74,7 @@ public class AccountRecyclerViewAdapter extends RecyclerView.Adapter<AccountRecy
       super(itemView);
       context = itemView.getContext();
       view = itemView;
+      ButterKnife.bind(this, itemView);
     }
   }
 }

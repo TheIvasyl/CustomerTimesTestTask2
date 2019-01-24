@@ -1,5 +1,6 @@
 package com.iyakoviv.customertimestest.presentation.presenters.impl;
 
+import android.support.annotation.NonNull;
 import android.util.Log;
 
 import com.google.gson.JsonElement;
@@ -33,6 +34,11 @@ public class MainPresenterImpl extends AbstractPresenter implements MainPresente
     }
 
     @Override
+    public void setView(@NonNull MainPresenter.View mainActivity) {
+      mView = mainActivity;
+    }
+
+    @Override
     public void loadDescribe() {
       if (!mRepository.isTableExists()) {
         DescribeNetworkInteractor interactor = new DescribeNetworkInteractorImpl(
@@ -60,19 +66,19 @@ public class MainPresenterImpl extends AbstractPresenter implements MainPresente
 
 
   @Override
-  public void loadPageFromDb(int offset) {
+  public void loadPageFromDb(int pageNumber) {
     DatabaseInteractor interactor = new DatabaseInteractorImpl(
             mExecutor,
             mMainThread,
             this,
             mRepository,
-            offset);
+            pageNumber);
     Log.d("PRESENTER", "DB interactor created");
     interactor.execute();
   }
 
 
-  @Override
+    @Override
     public void resume() {
 
     }
@@ -135,9 +141,8 @@ public class MainPresenterImpl extends AbstractPresenter implements MainPresente
   @Override
   public void onPageLoaded(List<AccountModel> page) {
       Log.d("PRESENTER", "PAGE LOADED");
-    String text = page.get(0).getValue().get("name");
 
-    mView.setText(text);
+    mView.setLastLoadedPage(page);
   }
 
   @Override

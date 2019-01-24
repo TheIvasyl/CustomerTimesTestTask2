@@ -5,7 +5,6 @@ import android.util.Log;
 import com.iyakoviv.customertimestest.domain.executor.Executor;
 import com.iyakoviv.customertimestest.domain.executor.MainThread;
 import com.iyakoviv.customertimestest.domain.interactors.DatabaseInteractor;
-import com.iyakoviv.customertimestest.domain.interactors.DescribeNetworkInteractor;
 import com.iyakoviv.customertimestest.domain.interactors.base.AbstractInteractor;
 import com.iyakoviv.customertimestest.domain.model.AccountModel;
 import com.iyakoviv.customertimestest.domain.repository.Repository;
@@ -17,21 +16,21 @@ public class DatabaseInteractorImpl extends AbstractInteractor implements Databa
 
   private DatabaseInteractor.Callback mCallback;
   private Repository mRepository;
-  private int mOffset;
+  private int pageNumber;
   private final int mLimit = 40;
 
   public DatabaseInteractorImpl(Executor threadExecutor, MainThread mainThread,
-                                Callback callback, Repository repository, int offset) {
+                                Callback callback, Repository repository, int pageNumber) {
     super(threadExecutor, mainThread);
     mCallback = callback;
     mRepository = repository;
-    mOffset = offset;
+    this.pageNumber = pageNumber;
   }
 
   @Override
   public void run() {
     Log.d("INERACTOR", "INTERACTOR RAN");
-    final List<AccountModel> page = mRepository.getPage(mOffset, mLimit);
+    final List<AccountModel> page = mRepository.getPage(pageNumber, mLimit);
 
     mMainThread.post(new Runnable() {
       @Override

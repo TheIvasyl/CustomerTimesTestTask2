@@ -18,9 +18,9 @@ public class QueryNetworkService {
     call.enqueue(new Callback<JsonElement>() {
       @Override
       public void onResponse(Call<JsonElement> call, Response<JsonElement> response) {
-        JsonElement element = response.body();
-        if (element != null) {
-          callback.onQueryLoaded(element);
+        JsonElement queryJson = response.body();
+        if (queryJson != null) {
+          callback.onQueryLoaded(queryJson);
         } else {
           callback.onQueryLoadFailure(response.code());
         }

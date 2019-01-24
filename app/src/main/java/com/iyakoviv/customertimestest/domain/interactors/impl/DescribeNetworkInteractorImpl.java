@@ -2,6 +2,7 @@ package com.iyakoviv.customertimestest.domain.interactors.impl;
 
 import android.util.Log;
 
+import com.google.gson.JsonArray;
 import com.google.gson.JsonElement;
 import com.iyakoviv.customertimestest.data.datasource.services.DescribeNetworkService;
 import com.iyakoviv.customertimestest.domain.executor.Executor;
@@ -9,6 +10,8 @@ import com.iyakoviv.customertimestest.domain.executor.MainThread;
 import com.iyakoviv.customertimestest.domain.interactors.DescribeNetworkInteractor;
 import com.iyakoviv.customertimestest.domain.interactors.base.AbstractInteractor;
 import com.iyakoviv.customertimestest.domain.repository.Repository;
+
+import org.json.JSONArray;
 
 
 public class DescribeNetworkInteractorImpl extends AbstractInteractor implements DescribeNetworkInteractor {
@@ -32,11 +35,12 @@ public class DescribeNetworkInteractorImpl extends AbstractInteractor implements
         public void onDescribeLoaded(Object object) {
           Log.d("INTERACTOR", "DATA LOADED");
           final JsonElement describe = (JsonElement) object;
+          final JsonArray fields = describe.getAsJsonObject().get("fields").getAsJsonArray();
           mMainThread.post(new Runnable() {
             @Override
             public void run() {
               mRepository.createTable(describe.getAsJsonObject().get("fields").getAsJsonArray());
-              mCallback.onDescribeLoaded(describe);
+              mCallback.onDescribeLoaded(fields);
             }
           });
         }

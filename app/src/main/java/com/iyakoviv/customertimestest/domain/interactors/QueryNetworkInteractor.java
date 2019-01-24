@@ -1,5 +1,6 @@
 package com.iyakoviv.customertimestest.domain.interactors;
 
+import com.google.gson.JsonArray;
 import com.iyakoviv.customertimestest.domain.interactors.base.Interactor;
 
 public interface QueryNetworkInteractor extends Interactor {

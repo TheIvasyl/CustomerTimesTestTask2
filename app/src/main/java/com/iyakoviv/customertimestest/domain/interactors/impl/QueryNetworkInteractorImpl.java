@@ -2,6 +2,7 @@ package com.iyakoviv.customertimestest.domain.interactors.impl;
 
 import android.util.Log;
 
+import com.google.gson.JsonArray;
 import com.google.gson.JsonElement;
 import com.iyakoviv.customertimestest.data.datasource.services.QueryNetworkService;
 import com.iyakoviv.customertimestest.domain.executor.Executor;
@@ -31,11 +32,12 @@ public class QueryNetworkInteractorImpl extends AbstractInteractor implements Qu
      public void onQueryLoaded(Object object) {
        Log.d("INTERACTOR", "DATA LOADED");
        final JsonElement query = (JsonElement) object;
+       final JsonArray recordsJson = query.getAsJsonObject().get("records").getAsJsonArray();
        mMainThread.post(new Runnable() {
          @Override
          public void run() {
-           mRepository.insertAll(query.getAsJsonObject().get("records").getAsJsonArray());
-           mCallback.onQueryLoaded(query);
+           mRepository.insertAll(recordsJson);
+           mCallback.onQueryLoaded(recordsJson);
          }
        });
      }
