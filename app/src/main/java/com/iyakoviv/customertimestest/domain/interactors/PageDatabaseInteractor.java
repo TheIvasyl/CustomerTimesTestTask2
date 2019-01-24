@@ -5,10 +5,10 @@ import com.iyakoviv.customertimestest.domain.model.AccountModel;
 
 import java.util.List;
 
-public interface DatabaseInteractor extends Interactor {
+public interface PageDatabaseInteractor extends Interactor {
 
   interface Callback {
-    void onPageLoaded(List<AccountModel> page);
+    void onPageLoaded(List<AccountModel> page, int pageNumber);
     void onPageLoadFailed();
     void onPageLoadFailed(int code);
   }

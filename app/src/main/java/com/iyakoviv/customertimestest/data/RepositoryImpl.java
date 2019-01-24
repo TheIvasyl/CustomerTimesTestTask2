@@ -22,12 +22,14 @@ public class RepositoryImpl implements Repository {
   public void createTable(JsonArray fields) {
     AccountsDatabaseHelper databaseHelper = AccountsDatabaseHelper.getInstance(mContext);
     databaseHelper.createTable(fields);
+    Log.d("REPOSITORY", "TABLE CREATED");
   }
 
   @Override
   public void insertAll(JsonArray records) {
     AccountsDatabaseHelper databaseHelper = AccountsDatabaseHelper.getInstance(mContext);
     databaseHelper.insertAll(records);
+    Log.d("REPOSITORY", "TABLE FILLED");
   }
 
   @Override

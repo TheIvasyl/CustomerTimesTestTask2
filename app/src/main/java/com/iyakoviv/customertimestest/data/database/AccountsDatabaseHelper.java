@@ -55,6 +55,7 @@ public class AccountsDatabaseHelper extends SQLiteOpenHelper {
     catch (SQLiteException e){
       Log.d("DATABASE_HELPER", "no need to create a table, it already exists");
     }
+
   }
 
   public boolean isTableExists(){
@@ -106,23 +107,33 @@ public class AccountsDatabaseHelper extends SQLiteOpenHelper {
   public List<AccountModel> getPage(int pageNumber, int limit){
     SQLiteDatabase database = getReadableDatabase();
 
-    int offset = pageNumber * limit;
+    int offset = limit * (pageNumber-1);
 
-    String sql = "SELECT * FROM Account LIMIT " + offset + limit;
+    Log.d("DB", "OFFSET IS " + offset);
+
+    String sql = "SELECT * FROM Account LIMIT " + offset + ", " + limit;
 
     Log.d("DB", "INB4 QUERRY");
     Cursor mCursor = database.rawQuery(sql, null);
 
     List<AccountModel> page = new ArrayList<>();
-
-    Log.d("DB", "INB4 CURSOR ITERATION");
-    mCursor.moveToFirst();
-    for (int i = 0; i < 40; i++){
-      page.add(cursorToModel(mCursor));
-      Log.d("DB", "ADDED ONE ELEMENT " + page.get(i).getValue().get("Id"));
-      mCursor.moveToNext();
+    if (mCursor.moveToFirst()){
+      int i = 0;
+      while(!mCursor.isAfterLast()){
+        page.add(cursorToModel(mCursor));
+        Log.d("DB", "ADDED ONE ELEMENT " + page.get(i).getValue().get("Id"));
+        mCursor.moveToNext();
+        i++;
+      }
     }
     mCursor.close();
+    //Log.d("DB", "INB4 CURSOR ITERATION");
+    //for (int i = 0; i < limit; i++){
+    //  page.add(cursorToModel(mCursor));
+    //  Log.d("DB", "ADDED ONE ELEMENT " + page.get(i).getValue().get("Id"));
+    //  mCursor.moveToNext();
+    //}
+    //mCursor.close();
     Log.d("DB", "PAGE LOADED");
     return page;
   }
@@ -138,7 +149,6 @@ public class AccountsDatabaseHelper extends SQLiteOpenHelper {
       String value = cursor.getString(cursor.getColumnIndex(key));
       map.put(key, value);
     }
-
     return new AccountModel(map);
   }
 

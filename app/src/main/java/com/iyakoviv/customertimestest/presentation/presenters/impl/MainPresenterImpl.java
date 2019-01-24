@@ -1,17 +1,11 @@
 package com.iyakoviv.customertimestest.presentation.presenters.impl;
 
-import android.support.annotation.NonNull;
 import android.util.Log;
 
-import com.google.gson.JsonElement;
 import com.iyakoviv.customertimestest.domain.executor.Executor;
 import com.iyakoviv.customertimestest.domain.executor.MainThread;
-import com.iyakoviv.customertimestest.domain.interactors.DatabaseInteractor;
-import com.iyakoviv.customertimestest.domain.interactors.DescribeNetworkInteractor;
-import com.iyakoviv.customertimestest.domain.interactors.QueryNetworkInteractor;
-import com.iyakoviv.customertimestest.domain.interactors.impl.DatabaseInteractorImpl;
-import com.iyakoviv.customertimestest.domain.interactors.impl.DescribeNetworkInteractorImpl;
-import com.iyakoviv.customertimestest.domain.interactors.impl.QueryNetworkInteractorImpl;
+import com.iyakoviv.customertimestest.domain.interactors.PageDatabaseInteractor;
+import com.iyakoviv.customertimestest.domain.interactors.impl.PageDatabaseInteractorImpl;
 import com.iyakoviv.customertimestest.domain.model.AccountModel;
 import com.iyakoviv.customertimestest.domain.repository.Repository;
 import com.iyakoviv.customertimestest.presentation.presenters.MainPresenter;
@@ -19,8 +13,7 @@ import com.iyakoviv.customertimestest.presentation.presenters.base.AbstractPrese
 
 import java.util.List;
 
-public class MainPresenterImpl extends AbstractPresenter implements MainPresenter,
-        DescribeNetworkInteractor.Callback, QueryNetworkInteractor.Callback, DatabaseInteractor.Callback {
+public class MainPresenterImpl extends AbstractPresenter implements MainPresenter, PageDatabaseInteractor.Callback {
 
     private MainPresenter.View mView;
     private Repository mRepository;
@@ -34,40 +27,16 @@ public class MainPresenterImpl extends AbstractPresenter implements MainPresente
     }
 
     @Override
-    public void setView(@NonNull MainPresenter.View mainActivity) {
+    public void setView(MainPresenter.View mainActivity) {
       mView = mainActivity;
     }
 
-    @Override
-    public void loadDescribe() {
-      if (!mRepository.isTableExists()) {
-        DescribeNetworkInteractor interactor = new DescribeNetworkInteractorImpl(
-                mExecutor,
-                mMainThread,
-                this,
-                mRepository);
-        Log.d("PRESENTER", "describe interactor created");
-        interactor.execute();
-      }
-    }
 
-    @Override
-    public void loadQuery() {
-      if (mRepository.isTableEmpty()) {
-        QueryNetworkInteractor interactor = new QueryNetworkInteractorImpl(
-                mExecutor,
-                mMainThread,
-                this,
-                mRepository);
-        Log.d("PRESENTER", "query interactor created");
-        interactor.execute();
-      }
-    }
 
 
   @Override
   public void loadPageFromDb(int pageNumber) {
-    DatabaseInteractor interactor = new DatabaseInteractorImpl(
+    PageDatabaseInteractor interactor = new PageDatabaseInteractorImpl(
             mExecutor,
             mMainThread,
             this,
@@ -104,45 +73,10 @@ public class MainPresenterImpl extends AbstractPresenter implements MainPresente
     }
 
   @Override
-  public void onDescribeLoaded(Object object) {
-    Log.d("PRESENTER", "DescribeGotLoaded");
-    JsonElement element = (JsonElement) object;
-    String text = element.getAsJsonObject().get("fields").getAsJsonArray().get(0).getAsJsonObject().get("name").getAsString();
-
-    //mView.setText(text);
-  }
-
-  @Override
-  public void onDescribeLoadFailure() {
-    Log.d("PRESENTER", "DesctibeDidntLoad");
-  }
-
-  @Override
-  public void onDescribeLoadFailure(int code) {
-
-  }
-
-  @Override
-  public void onQueryLoaded(Object object) {
-    Log.d("PRESENTER", "QueryGorLoaded");
-    JsonElement element = (JsonElement) object;
-  }
-
-  @Override
-  public void onQueryLoadFailure() {
-
-  }
-
-  @Override
-  public void onQueryLoadFailure(int code) {
-
-  }
-
-  @Override
-  public void onPageLoaded(List<AccountModel> page) {
+  public void onPageLoaded(List<AccountModel> page, int pageNumber) {
       Log.d("PRESENTER", "PAGE LOADED");
 
-    mView.setLastLoadedPage(page);
+    mView.addNewItems(page);
   }
 
   @Override

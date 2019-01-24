@@ -36,10 +36,10 @@ public class DescribeNetworkInteractorImpl extends AbstractInteractor implements
           Log.d("INTERACTOR", "DATA LOADED");
           final JsonElement describe = (JsonElement) object;
           final JsonArray fields = describe.getAsJsonObject().get("fields").getAsJsonArray();
+          mRepository.createTable(describe.getAsJsonObject().get("fields").getAsJsonArray());
           mMainThread.post(new Runnable() {
             @Override
             public void run() {
-              mRepository.createTable(describe.getAsJsonObject().get("fields").getAsJsonArray());
               mCallback.onDescribeLoaded(fields);
             }
           });

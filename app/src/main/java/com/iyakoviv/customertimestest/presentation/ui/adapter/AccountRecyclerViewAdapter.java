@@ -3,6 +3,7 @@ package com.iyakoviv.customertimestest.presentation.ui.adapter;
 import android.content.Context;
 import android.support.annotation.NonNull;
 import android.support.v7.widget.RecyclerView;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -27,9 +28,10 @@ public class AccountRecyclerViewAdapter extends RecyclerView.Adapter<AccountRecy
 
   @NonNull
   @Override
-  public ViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
+  public ViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
     View view = LayoutInflater.from(parent.getContext())
             .inflate(R.layout.list_item, parent, false);
+    Log.d("ADAPTER", "ON CREATE VIEW HOLDER");
     return new ViewHolder(view);
   }
 
@@ -39,21 +41,27 @@ public class AccountRecyclerViewAdapter extends RecyclerView.Adapter<AccountRecy
 
     String idText = viewHolder.item.getValue().get("Id");
 
+    Log.d("ADAPTER", "BIND " + idText);
+    if (viewHolder.accountText == null){
+      Log.d("ADAPTER", "TEXT VIEW IS NULL");
+      return;
+    }
     viewHolder.accountText.setText(idText);
   }
 
   @Override
   public int getItemCount() {
-    return 0;
+    return listElements.size();
   }
 
 
-  public void addNewItems(List<AccountModel> results) {
-    if (results.size() == 0) {
+  public void addNewItems(List<AccountModel> page) {
+    if (page.size() == 0) {
       allItemsLoaded = true;
       return;
     }
-    listElements.addAll(results);
+    listElements.addAll(page);
+    Log.d("ADAPTER", "ADDED ANOTHER PAGE" + page.get(0).getValue().get("Id"));
   }
 
   public boolean isAllItemsLoaded() {
@@ -61,7 +69,6 @@ public class AccountRecyclerViewAdapter extends RecyclerView.Adapter<AccountRecy
   }
 
   public class ViewHolder extends RecyclerView.ViewHolder {
-
 
     @BindView(R.id.accountText)
     TextView accountText;
