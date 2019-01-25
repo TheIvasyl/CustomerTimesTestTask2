@@ -2,7 +2,7 @@
 
 When you run an application it starts with SplashScreen, where the data is pulled from network and inserted to a database. It might take some time, since there is relatively big volume of data. Then it starts main activity, which initializes a RecyclerView and loads first page (40 items) of records form database and presents it on a screen as a list. On scroll it loads an another page.
 
-The records Json life (Querry.json) was trimmed to 723 elements, since most of free mocking services do not support big Json responses.
+The records Json file (Querry.json) was trimmed to 723 elements, since most of free mocking services do not support big Json responses.
 
 Also, I didn't add progress bars on loading data, so be patient and wait a bit while data is getting loaded. Especially while database is getting filled with records. 
 
