@@ -14,4 +14,4 @@ Android Architecture Components were not used because we didn't have any specifi
 
 Since Account objects contain some fields that were not specified in a Describe.json file, I added a hardcoded crutch to avoid "noSuchColumn" error.
 
-Also on UI I hardcoded to present and "Id" value in a list, so items look more tidy (because every row in a database contains 190 fields).
+Also on UI I hardcoded to present an "Id" value in a list, so items look more tidy (because every row in a database contains 190 fields).
